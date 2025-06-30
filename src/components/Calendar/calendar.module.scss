@@ -1,0 +1,164 @@
+@use '../../style/vars.scss' as *;
+
+.box {
+    width: 52px;
+    height: 38px;
+    background-color: rgb(236, 241, 249);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.calendarBox {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.calendarBox:hover {
+    background-color: rgb(217, 232, 255);
+}
+
+.calendar {
+    fill: $colorTheme;
+}
+
+.arrow {
+    fill: $colorTheme;
+    block-size: 12px;
+}
+
+.functionalBlock {
+    width: 432px;
+    height: 244px;
+    background-color: white;
+    border-radius: 4px;
+    padding: 16px;
+    filter: drop-shadow(rgba(0, 0, 0, 0.2) 0px 5.7px 9px);
+    position: absolute;
+    top: 42px;
+    left: 0%;
+    transition: opacity 350ms cubic-bezier(0.34, 1.61, 0.7, 1), transform 450ms cubic-bezier(0.34, 1.61, 0.7, 1);
+}
+
+.functionalBlock::before {
+    content: '';
+    position: absolute;
+    inline-size: 16px;
+    block-size: 16px;
+    transform: rotate(-45deg);
+    z-index: 1;
+    left: 16px;
+    border-radius: 2px;
+    background-color: white;
+    margin-block-start: -24px;
+}
+
+.selectTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selectText {
+    margin: 0 0 12px;
+    font-size: 0.8571rem;
+    line-height: 1.4286rem;
+    font-weight: 600;
+    color: rgb(17, 28, 44);
+}
+
+.arrowsBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.leftArrowBox {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    fill: $colorTheme;
+}
+
+
+.leftArrowBox:hover {
+    background-color: $backgroundTheme;
+    border-radius: 2px;
+}
+
+.rightArrowBox {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    fill: $colorTheme;
+}
+
+.rightArrowBox:hover {
+    background-color: $backgroundTheme;
+    border-radius: 2px;
+}
+
+.select {
+    block-size: 32px;
+    width: 104px;
+    border-radius: 4px;
+    border: 1px solid rgb(118 118 118 / 34%);
+    color: $selectColor;
+    outline: none;
+    appearance: none;
+    padding: 8px;
+}
+
+.arrowDown {
+    fill: $selectColor;
+    block-size: 12px;
+    transform: translate(38px, -24px);
+}
+
+.selectedPeriodBox {
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.applyButton {
+    border: none;
+    block-size: 32px;
+    border-radius: 4px;
+    color: $colorTheme;
+    background-color: $backgroundTheme;
+    width: 62.5px;
+}
+
+.applyButton:hover {
+    background-color: rgb(199 220 251);
+}
+
+.quickSelectPanel {
+    border-block-start: 1px solid rgb(227, 232, 242);
+    padding-block-start: 12px;
+    margin-block-start: 12px;
+}
+
+.quickSelectPanelTitle {
+    float: left;
+    margin-block-end: 12px;
+    font-size: 0.8571rem;
+    line-height: 1.4286rem;
+    font-weight: 600;
+    color: rgb(17, 28, 44);
+}
+
+.quickSelectPanelList {
+    list-style-type: none;
+}
