@@ -13,41 +13,8 @@ export const SelectedBlock = ({ setPeriod, setIsOpen }: SelectedPeriodProps) => 
     const [timeSelect, setTimeSelect] = useState('Minutes');
     const functionalBlockRef = useRef<HTMLDivElement>(null);
 
-    const now = new Date();
-    console.log(now);
-
     const handlechoose = (element: string) => {
         setPeriod(element);
-        let dateTime: number;
-        switch (element) {
-            case 'Today':
-                dateTime = 12;
-                break;
-            case 'This week':
-                dateTime = 13;
-                break;
-            case 'This month':
-                dateTime = 14;
-                break;
-            case 'This year':
-                dateTime = 15;
-                break;
-            case 'Yesterday':
-                dateTime = 16;
-                break;
-            case 'Week to date':
-                dateTime = 17;
-                break;
-            case 'Month to date':
-                dateTime = 18;
-                break;
-            case 'Year to date':
-                dateTime = 19;
-                break;
-            default:
-                dateTime = 0;
-        }
-        console.log(dateTime);
         setIsOpen(false);
     };
 

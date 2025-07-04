@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import styles from './calendar.module.scss';
 import { SelectedBlock } from './SelectedBlock';
 import { PeriodContext } from '../../hooks/PeriodContext';
+import moment from 'moment';
 
 interface PeriodProps {
   setPeriod: (value: string | null) => void;
@@ -10,9 +11,49 @@ interface PeriodProps {
 export const Calendar = ({ setPeriod }: PeriodProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const period = useContext(PeriodContext);
+  const [start, setStart] = useState<moment.Moment | string>(moment().subtract(30, 'minutes'));
+  const [end, setEnd] = useState<moment.Moment>(moment());
 
   const handleClick = () => {
     setIsOpen(prev => !prev);
+  };
+
+  const handleRefresh = () => {
+    let newStart: moment.Moment | string;
+    switch (period) {
+      case 'Today':
+        newStart = moment().startOf('day');
+        console.log(newStart.toString());
+        break;
+      case 'Yesterday':
+        newStart = moment().subtract(1, 'day').startOf('day');
+        console.log(newStart.toString());
+        setEnd(moment().subtract(1, 'day').endOf('day'));
+        console.log(moment().subtract(1, 'day').endOf('day').toString());
+        break;
+      case 'This week':
+        newStart = moment().startOf('week');
+        break;
+      case 'This month':
+        newStart = moment().startOf('month');
+        break;
+      case 'This year':
+        newStart = moment().startOf('year');
+        break;
+      case 'Week to date':
+        newStart = moment().subtract(1, 'week');
+        break;
+      case 'Month to date':
+        newStart = moment().subtract(1, 'month');
+        break;
+      case 'Year to date':
+        newStart = moment().subtract(1, 'year');
+        break;
+      default:
+        newStart = start;
+    }
+    console.log(newStart.toString());
+    setStart(newStart);
   };
 
   return (
@@ -26,7 +67,7 @@ export const Calendar = ({ setPeriod }: PeriodProps) => {
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" className={styles.arrow} role="img" aria-hidden="true"><path fillRule="evenodd" d="m8 10.293 5.646-5.647.708.708L8 11.707 1.646 5.354l.708-.708L8 10.293Z" clipRule="evenodd"></path>
           </svg>
         </div>
-        {isOpen && <SelectedBlock setPeriod={setPeriod} setIsOpen={setIsOpen}/>}
+        {isOpen && <SelectedBlock setPeriod={setPeriod} setIsOpen={setIsOpen} />}
       </div>
       <div className={styles.boxRightPart}>
         <button
@@ -38,7 +79,11 @@ export const Calendar = ({ setPeriod }: PeriodProps) => {
         </button>
       </div >
       <div className={styles.refreshButtonBox}>
-        <button className={styles.refreshButton}>
+        <button
+          className={styles.refreshButton}
+          type='button'
+          onClick={handleRefresh}
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" className={styles.roundArrows} role="img" aria-hidden="true"><path fillRule="evenodd" d="M2 8a5.98 5.98 0 0 0 1.757 4.243A5.98 5.98 0 0 0 8 14v1a6.98 6.98 0 0 1-4.95-2.05A6.98 6.98 0 0 1 1 8c0-1.79.683-3.58 2.048-4.947l.004-.004.019-.02L3.1 3H1V2h4v4H4V3.525a6.51 6.51 0 0 0-.22.21l-.013.013-.003.002-.007.007A5.98 5.98 0 0 0 2 8Zm10.243-4.243A5.98 5.98 0 0 0 8 2V1a6.98 6.98 0 0 1 4.95 2.05A6.98 6.98 0 0 1 15 8a6.98 6.98 0 0 1-2.047 4.947l-.005.004-.018.02-.03.029H15v1h-4v-4h1v2.475a6.744 6.744 0 0 0 .22-.21l.013-.013.003-.002.007-.007A5.98 5.98 0 0 0 14 8a5.98 5.98 0 0 0-1.757-4.243Z" clipRule="evenodd"></path></svg>
           Refresh
         </button>
