@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './calendar.module.scss';
 
 interface SelectedPeriodProps {
     setPeriod: (value: string | null) => void;
+    setIsOpen: (value: boolean) => void;
 }
 
-export const SelectedBlock = ({ setPeriod }: SelectedPeriodProps) => {
+export const SelectedBlock = ({ setPeriod, setIsOpen }: SelectedPeriodProps) => {
     const period = ['Today', 'This week', 'This month', 'This year', 'Yesterday', 'Week to date', 'Month to date', 'Year to date'];
     const [periodSelect, setPeriodSelect] = useState('Last');
     const [amount, setAmount] = useState(30);
     const [timeSelect, setTimeSelect] = useState('Minutes');
+    const functionalBlockRef = useRef<HTMLDivElement>(null);
 
     const now = new Date();
     console.log(now);
@@ -46,6 +48,7 @@ export const SelectedBlock = ({ setPeriod }: SelectedPeriodProps) => {
                 dateTime = 0;
         }
         console.log(dateTime);
+        setIsOpen(false);
     };
 
     const handlePeriodSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -63,10 +66,23 @@ export const SelectedBlock = ({ setPeriod }: SelectedPeriodProps) => {
     const handleApply = () => {
         const updatedPeriod = `${periodSelect} ${amount} ${timeSelect}`;
         setPeriod(updatedPeriod);
-    }
+        setIsOpen(false);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (functionalBlockRef.current && !functionalBlockRef.current.contains(e.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [])
+
 
     return (
-        <div className={styles.functionalBlock}>
+        <div className={styles.functionalBlock} ref={functionalBlockRef}>
             <div className={styles.selectTop}>
                 <p className={styles.selectText}>Quick select</p>
                 <div className={styles.arrowsBox}>
@@ -132,4 +148,4 @@ export const SelectedBlock = ({ setPeriod }: SelectedPeriodProps) => {
             </div>
         </div >
     )
-}
+};
